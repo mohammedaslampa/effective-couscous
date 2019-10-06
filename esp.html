@@ -1,0 +1,178 @@
+const char MAIN_page[] PROGMEM = R"=====(
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+.switch0 {
+  position: relative;
+  left: 20px;
+  top: 180px;
+  display: inline-block;
+  width: 65px;
+  height: 39px;
+}
+.switch1 {
+  position: relative;
+  left: 50px;
+  top: 180px;
+  display: inline-block;
+  width: 65px;
+  height: 39px;
+}
+.switch2 {
+  position: relative;
+  left: 80px;
+  top: 180px;
+  display: inline-block;
+  width: 65px;
+  height: 39px;
+}
+.switch3 {
+  position: relative;
+  left: 120px;
+  top: 180px;
+  display: inline-block;
+  width: 65px;
+  height: 39px;
+}
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+.square {
+  position: absolute;
+  width: 50px;
+  margin: 14px 2px;
+}
+.square-1 {
+  left: 30px;
+  background: blue;
+
+}
+.square-2 {
+  left: 130px;
+  background: blue;
+}
+.square-3 {
+  left: 30px;
+  background: green;
+  height: 150px;
+
+  }
+.square-4 {
+  left: 130px;
+  background: green;
+  height: 150px;
+
+}
+</style>
+</head>
+<body>
+
+<h2>Toggle Switch</h2>
+<div class="square square-3"></div>
+<div class="square square-1" id ="theInput0" >10</div>
+<div class="square square-4"></div>
+<div class="square square-2" id ="theInput1" >20</div>
+
+
+<label class="switch0">
+  <input type="checkbox" id="myCheck0"  onclick="myFunction(1)">
+  <span class="slider">&nbsp&nbspmotor0</span>
+</label>
+<label class="switch1">
+  <input type="checkbox" id="myCheck1"  onclick="myFunction(2)">
+  <span class="slider">&nbsp&nbspmotor1</span>
+</label>
+<label class="switch2">
+  <input type="checkbox" id="myCheck2"  onclick="myFunction(3)">
+  <span class="slider">&nbsp&nbspsystem0</span>
+</label>
+<label class="switch3">
+  <input type="checkbox" id="myCheck3"  onclick="myFunction(4)">
+  <span class="slider">&nbsp&nbspsystem1</span><br>
+</label>
+<br><br><br><br><br><br><br><br><br><br><br>
+<pre>    motor0      motor1</pre>
+
+ 
+<script>
+function myFunction(t) {
+  var checkBox0 = document.getElementById("myCheck0");
+  var checkBox1 = document.getElementById("myCheck1");
+  var checkBox0 = document.getElementById("myCheck2");
+  var checkBox0 = document.getElementById("myCheck3");
+  var xhttp = new XMLHttpRequest();
+  
+  if (checkBox0.checked == true){
+    xhttp.open("GET", "setLoad?loadstate="+t+"1", true);
+    xhttp.send();
+    } 
+  else {
+    xhttp.open("GET", "setLoad?loadstate="+t+"0", true);
+    xhttp.send();
+    }
+  if (checkBox1.checked == true){
+    xhttp.open("GET", "setLoad?loadstate="+t+"1", true);
+    xhttp.send();
+    } 
+  else {
+    xhttp.open("GET", "setLoad?loadstate="+t+"0", true);
+    xhttp.send(); 
+    }
+  if (checkBox2.checked == true){
+    xhttp.open("GET", "setLoad?loadstate="+t+"1", true);
+    xhttp.send();    
+    } 
+  else {
+    xhttp.open("GET", "setLoad?loadstate="+t+"0", true);
+    xhttp.send();   
+    }
+  if (checkBox3.checked == true){
+    xhttp.open("GET", "setLoad?loadstate="+t+"1", true);
+    xhttp.send(); 
+    }
+  else {
+    xhttp.open("GET", "setLoad?loadstate="+t+"0", true);
+    xhttp.send();
+    }
+}
+
+setInterval(function() {
+  // Call a function repetatively with 2 Second interval
+  getData();
+}, 1000);
+
+function getData() {
+  var xhttp = new XMLHttpRequest();
+  var checkBox1 = document.getElementById("myCheck1");
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var myObj = JSON.parse(this.responseText);
+      document.getElementById("theInput0").innerHTML = myObj.t0;
+      var box0 = myObj.m0;
+      if (box0=="1"){document.getElementById("myCheck0").checked = true;}
+      else{document.getElementById("myCheck0").checked = false;}
+      document.getElementById("theInput1").innerHTML = myObj.t1;
+      var box1 = myObj.m1;
+      if (box1=="1"){document.getElementById("myCheck1").checked = true;}
+      else{document.getElementById("myCheck1").checked = false;}
+    }
+  };
+  xhttp.open("GET", "getstatus", true);
+  xhttp.send();
+}
+
+</script>
+</body>
+</html> 
+)=====";
